@@ -5,18 +5,18 @@ require 'selbot2'
 Cinch::Bot.new {
   configure do |c|
     c.server = "irc.freenode.net"
-    c.nick   = "selbot2"
+    c.nick   = "appiumbot"
     c.channels = Selbot2::CHANNELS
     c.plugins.plugins = [
       Selbot2::Issues,
-      Selbot2::Revisions,
-      Selbot2::Commits,
-      Selbot2::Wiki,
+#      Selbot2::Revisions,
+#      Selbot2::Commits,
+#      Selbot2::Wiki,
       Selbot2::Youtube,
       Selbot2::Notes,
       Selbot2::Seen,
-      Selbot2::SeleniumHQ,
-      Selbot2::CI,
+#      Selbot2::SeleniumHQ,
+#      Selbot2::CI,
       Selbot2::Google,
       Selbot2::WhoBrokeIt
     ]
