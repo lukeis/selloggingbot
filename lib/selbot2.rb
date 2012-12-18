@@ -5,7 +5,7 @@ require "time"
 
 module Selbot2
   PREFIX = ":"
-  CHANNELS = Array(ENV['SELBOT_CHANNEL'] || ["#selenium", "#seleniumide"])
+  CHANNELS = Array(ENV['SELBOT_CHANNEL'])
   HELPS = []
 end
 
@@ -25,3 +25,4 @@ require 'selbot2/seen'
 #require 'selbot2/twitter'
 require 'selbot2/google'
 require 'selbot2/whobrokeit'
+require 'selbot2/log'
