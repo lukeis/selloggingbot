@@ -39,7 +39,7 @@ Cinch::Bot.new {
 
   Selbot2::HELPS << [':log', "link to today's chat log"]
   on :message, /:log/ do |m|
-    m.reply "https://raw.github.com/lukeis/appiumlogs/master/#{(Time.new).strftime('%Y/%m/%d')}.txt"
+    m.reply "https://raw.github.com/appium/appiumlogs/master/#{(Time.new).strftime('%Y/%m/%d')}.txt"
   end
 
   [
