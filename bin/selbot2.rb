@@ -5,7 +5,7 @@ require 'selbot2'
 Cinch::Bot.new {
   configure do |c|
     c.server = "irc.freenode.net"
-    c.nick   = "appiumbot"
+    c.nick   = "ios-driverbot"
     c.channels = Selbot2::CHANNELS
     c.plugins.plugins = [
       Selbot2::Issues,
@@ -39,29 +39,24 @@ Cinch::Bot.new {
 
   Selbot2::HELPS << [':log', "link to today's chat log"]
   on :message, /:log/ do |m|
-    m.reply "https://raw.github.com/appium/appiumlogs/master/#{(Time.new).strftime('%Y/%m/%d')}.txt"
+    m.reply "https://raw.github.com/ios-driver/irc-logs/master/#{(Time.new).strftime('%Y/%m/%d')}.txt"
   end
 
   [
     {
       :expression => /:newissue/,
-      :text       => "https://code.google.com/p/selenium/issues/entry",
+      :text       => "https://github.com/ios-driver/ios-driver/issues",
       :help       => "link to issue the tracker"
     },
     {
       :expression => /:(source|code)/,
-      :text       => "https://code.google.com/p/selenium/source/checkout",
+      :text       => "https://github.com/ios-driver/ios-driver",
       :help       => "link to the source code"
     },
     {
-      :expression => /:apidocs/,
-      :text       => ".NET: http://goo.gl/Fm3cw | Java: http://goo.gl/kKQqM | Ruby: http://goo.gl/cFyyT | Python: http://goo.gl/5yWoR",
-      :help       => "links to API docs"
-    },
-    {
-      :expression => /:downloads/,
-      :text       => "http://seleniumhq.org/download/ and https://code.google.com/p/selenium/downloads/list",
-      :help       => "links to downloads pages"
+      :expression => /:docs/,
+      :text       => "http://ios-driver.github.com/ios-driver/",
+      :help       => "links to docs"
     },
     {
       :expression => /:gist/,
@@ -74,60 +69,15 @@ Cinch::Bot.new {
       :help       => "Don't ask to ask."
     },
     {
-      :expression => /:cla(\W|$)/,
-      :text       => "http://goo.gl/qC50R",
-      :help       => "link to Selenium's CLA"
-    },
-    {
       :expression => /:(mailing)?lists?/,
-      :text       => "https://groups.google.com/forum/#!forum/selenium-users | https://groups.google.com/forum/#!forum/selenium-developers",
+      :text       => "https://groups.google.com/forum/#!forum/ios-driver",
       :help       => "link to mailing lists"
-    },
-    {
-      :expression => /:chrome(driver)?/,
-      :text       => "https://code.google.com/p/selenium/wiki/ChromeDriver | https://code.google.com/p/chromedriver/downloads/list ",
-      :help       => "link to ChromeDriver (wiki + downloads)"
-    },
-    {
-      :expression => /:clarify/,
-      :text       => "Please clarify: Are you using WebDriver, RC or IDE? What version of Selenium? What programming language? What browser and browser version? What operating system?",
-      :help       => "Please clarify your question."
-    },
-    {
-      :expression => /:change(log|s)\b/,
-      :text       => ".NET: http://goo.gl/SL88L | Java: http://goo.gl/50JPE | Ruby: http://goo.gl/K9ayk | Python: http://goo.gl/Ikm8u | IDE: http://goo.gl/tm4FM",
-      :help       => "links to change logs"
-    },
-    {
-      :expression => /(can i|how do i|is it possible to).+set (a )?cookies?.*\?/i,
-      :text       => "http://seleniumhq.org/docs/03_webdriver.html#cookies",
-      :help       => "Help people with cookies."
-    },
-    {
-      :expression => /:ignores?/i,
-      :text       => "http://ignores.ci.seleniumhq.org/",
-      :help       => "Link to the @Ignore dashboard."
     },
     {
       :expression => /:(testcase|repro|example|sscce)/i,
       :text       => "Please read http://sscce.org/",
       :help       => "Link to 'Short, Self Contained, Correct (Compilable), Example' site"
     },
-    {
-      :expression => /:(spec|w3c?)/i,
-      :text       => "http://dvcs.w3.org/hg/webdriver/raw-file/tip/webdriver-spec.html | http://dvcs.w3.org/hg/webdriver/",
-      :help       => "Links to the WebDriver spec."
-    },
-    {
-      :expression => /:kittens\b/,
-      :text       => "Before you say you cannot provide html, think of the kittens! http://jimevansmusic.blogspot.ca/2012/12/not-providing-html-page-is-bogus.html",
-      :help       => "Letting users know they need to provide html"
-    },
-    {
-      :expression => /m-?day/i,
-      :text       => "M-Day: day in the future when Marionette is made available for non-debug builds",
-      :help       => "What is M-day?"
-    }
   ].each do |cmd|
     Selbot2::HELPS << [cmd[:expression].source, cmd[:help]]
     on(:message, cmd[:expression]) { |m| m.reply cmd[:text] }
