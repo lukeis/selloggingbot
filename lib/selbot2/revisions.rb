@@ -2,7 +2,7 @@ module Selbot2
   class Revisions
     include Cinch::Plugin
 
-    HELPS << ["r<revision>", "show revision"]
+    HELPS << ["<git sha>", "show revision"]
 
     listen_to :message
 
@@ -12,21 +12,23 @@ module Selbot2
       end
     end
   end
-  
-  module RevisionFinder
-    extend SvnHelper
 
-    RX = /\br(\d+|HEAD)\b/
+  module RevisionFinder
+    RX = /\b([a-f\d]{5,40}|HEAD)\b/
 
     module_function
 
+    def git
+      @git ||= Git.new
+    end
+
     def each(str)
-      nums = str.scan(RX).flatten
+      shas = str.scan(RX).flatten
 
       result = []
 
-      nums.each do |num|
-        reply = find(num)
+      shas.each do |sha|
+        reply = find(sha)
         if reply
           yield reply if block_given?
           result << reply
@@ -36,43 +38,11 @@ module Selbot2
       result
     end
 
-    def find(num)
-      doc = svn "log", "-r#{num}"
-      entry = doc.css("logentry").first
-
-      entry && Entry.new(entry).reply
+    def find(sha)
+      Util.format_revision git.commit(sha)
     rescue => ex
       p [ex.message, ex.backtrace.first]
-    end
-  end
-
-  class Entry
-    def initialize(doc)
-      @doc = doc
-    end
-
-    def revision
-      @doc['revision']
-    end
-
-    def author
-      @doc.css("author").text
-    end
-
-    def date
-      Time.parse @doc.css("date").text
-    end
-
-    def message
-      @doc.css("msg").text
-    end
-
-    def url
-      "https://code.google.com/p/selenium/source/detail?r=#{revision}"
-    end
-
-    def reply
-      Util.format_revision author, date, message, revision
+      nil
     end
   end
 end

@@ -6,4 +6,6 @@ gem "rest-client"
 gem "nokogiri"
 gem "json"
 gem "rake"
-gem "twitter"
+# gem "twitter"
+gem 'pry'
+gem 'octokit'
